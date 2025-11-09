@@ -1,0 +1,168 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int           @id @default(autoincrement())
+  name      String        @unique
+  icon      String?
+  color     String?
+  isCustom  Boolean       @default(false) @map("is_custom")
+  parentId  Int?          @map("parent_id")
+  parent    Category?     @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children  Category[]    @relation("CategoryHierarchy")
+  expenses  Expense[]
+  budgets   Budget[]
+  transactions Transaction[]
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@map("categories")
+}
+
+model Expense {
+  id              Int          @id @default(autoincrement())
+  amount          Float
+  date            DateTime
+  categoryId      Int          @map("category_id")
+  category        Category     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  description     String?
+  notes           String?
+  paymentMethod   String?      @map("payment_method")
+  isRecurring     Boolean      @default(false) @map("is_recurring")
+  recurringPeriod String?      @map("recurring_period")
+  tags            String?
+  transactions    Transaction[]
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  @@index([date])
+  @@index([categoryId])
+  @@index([date, categoryId])
+  @@map("expenses")
+}
+
+model ChatMessage {
+  id        Int      @id @default(autoincrement())
+  role      String
+  content   String
+  metadata  String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@map("chat_messages")
+}
+
+model Document {
+  id          Int             @id @default(autoincrement())
+  filename    String
+  filePath    String          @map("file_path")
+  fileType    String?         @map("file_type")
+  fileSize    Int?            @map("file_size")
+  title       String?
+  description String?
+  metadata    String?
+  chunks      DocumentChunk[]
+  uploadedAt  DateTime        @default(now()) @map("uploaded_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  @@map("documents")
+}
+
+model DocumentChunk {
+  id         Int      @id @default(autoincrement())
+  documentId Int      @map("document_id")
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  chunkIndex Int      @map("chunk_index")
+  content    String
+  embedding  Bytes?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@unique([documentId, chunkIndex])
+  @@map("document_chunks")
+}
+
+model Budget {
+  id         Int       @id @default(autoincrement())
+  categoryId Int?      @map("category_id")
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  amount     Float
+  period     String
+  startDate  DateTime  @map("start_date")
+  endDate    DateTime? @map("end_date")
+  isActive   Boolean   @default(true) @map("is_active")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@map("budgets")
+}
+
+model Transaction {
+  id                Int       @id @default(autoincrement())
+  plaidTransactionId String?  @unique @map("plaid_transaction_id")
+  accountId         String?   @map("account_id") // Plaid account ID (no FK constraint in SQL)
+  amount            Float
+  date              DateTime
+  description       String?
+  merchantName      String?   @map("merchant_name")
+  categoryId        Int?      @map("category_id")
+  category          Category? @relation(fields: [categoryId], references: [id])
+  isProcessed       Boolean   @default(false) @map("is_processed")
+  expenseId         Int?      @map("expense_id")
+  expense           Expense?  @relation(fields: [expenseId], references: [id], onDelete: SetNull)
+  metadata          String?
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @updatedAt @map("updated_at")
+
+  @@index([date])
+  @@index([accountId])
+  @@index([isProcessed])
+  @@map("transactions")
+}
+
+model Account {
+  id              Int       @id @default(autoincrement())
+  plaidAccountId  String?   @unique @map("plaid_account_id")
+  institutionName String?   @map("institution_name")
+  accountName     String?   @map("account_name")
+  accountType     String?   @map("account_type")
+  lastSyncedAt    DateTime? @map("last_synced_at")
+  isActive        Boolean   @default(true) @map("is_active")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("accounts")
+}
+
+model Scenario {
+  id         Int       @id @default(autoincrement())
+  type       String
+  name       String
+  inputData  String    @map("input_data")
+  results    String?
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime  @updatedAt @map("updated_at")
+
+  @@map("scenarios")
+}
+
+model Alert {
+  id        Int      @id @default(autoincrement())
+  type      String
+  title     String
+  message   String
+  isRead    Boolean  @default(false) @map("is_read")
+  metadata  String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("alerts")
+}
