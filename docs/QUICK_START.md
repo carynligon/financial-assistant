@@ -154,16 +154,16 @@ app/
 
 ### Database
 
-- [ ] Set up SQLite database
-- [ ] Create categories table
-- [ ] Create expenses table
-- [ ] Create chat_messages table
-- [ ] Seed default categories
-- [ ] Add database indexes
+- [x] Set up SQLite database
+- [x] Create categories table
+- [x] Create expenses table
+- [x] Create chat_messages table
+- [x] Seed default categories
+- [x] Add database indexes
 
 ### Expenses
 
-- [ ] Expense creation form
+- [x] Expense creation form
 - [ ] Expense list view
 - [ ] Expense edit functionality
 - [ ] Expense delete functionality
@@ -173,7 +173,7 @@ app/
 
 ### Categories
 
-- [ ] Category list view
+- [x] Category list view
 - [ ] Category creation
 - [ ] Category edit
 - [ ] Category delete
@@ -181,9 +181,9 @@ app/
 
 ### Chat
 
-- [ ] Chat UI component
-- [ ] AI integration
-- [ ] Chat history storage
+- [x] Chat UI component
+- [x] AI integration
+- [x] Chat history storage
 - [ ] Message streaming (optional)
 - [ ] Clear history functionality
 
@@ -285,4 +285,3 @@ When adding new features:
 3. Add tests for new features
 4. Ensure code follows style guidelines
 5. Test thoroughly before committing
-
