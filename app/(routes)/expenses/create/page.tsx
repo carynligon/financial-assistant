@@ -1,5 +1,7 @@
 "use client";
+import BackButton from "@/app/components/buttons/BackButton";
 import { Category } from "@/app/generated/prisma";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 
@@ -69,142 +71,201 @@ export default function CreateExpense() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="amount">Amount *</label>
-          <CurrencyInput
-            id="amount"
-            name="amount"
-            placeholder="$0.00"
-            prefix="$"
-            decimalsLimit={2}
-            value={amount}
-            onValueChange={(value) => setAmount(value || "")}
-            required
-          />
-        </div>
+      <BackButton />
+      <div className="max-w-2xl mx-auto p-4 sm:p-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="amount"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Amount *
+            </label>
+            <CurrencyInput
+              id="amount"
+              name="amount"
+              placeholder="$0.00"
+              prefix="$"
+              decimalsLimit={2}
+              value={amount}
+              onValueChange={(value) => setAmount(value || "")}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
+          </div>
 
-        <div>
-          <label htmlFor="date">Date *</label>
-          <input
-            id="date"
-            name="date"
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            required
-          />
-        </div>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="date"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Date *
+            </label>
+            <input
+              id="date"
+              name="date"
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
+          </div>
 
-        <fieldset>
-          <legend>Expense Category *</legend>
-          {expenseCategories.map((category) => (
-            <div key={category.id}>
-              <label>
-                <input
-                  type="radio"
-                  name="category"
-                  value={category.id}
-                  checked={Number(selectedCategory) === Number(category.id)}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  required
-                />
-                {category.icon}
-                {category.name}
-              </label>
+          <fieldset className="border border-gray-300 rounded-lg p-4 dark:border-gray-600">
+            <legend className="text-sm font-medium text-gray-700 dark:text-gray-300 px-2">
+              Expense Category *
+            </legend>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+              {expenseCategories.map((category) => (
+                <label
+                  key={category.id}
+                  className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer transition-colors hover:bg-gray-50 has-checked:bg-blue-50 has-checked:border-blue-500 dark:border-gray-700 dark:hover:bg-gray-800 dark:has-checked:bg-blue-900/20"
+                >
+                  <input
+                    type="radio"
+                    name="category"
+                    value={category.id}
+                    checked={Number(selectedCategory) === Number(category.id)}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                    required
+                    className="w-4 h-4 text-blue-600 cursor-pointer"
+                  />
+                  <span className="text-xl">{category.icon}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {category.name}
+                  </span>
+                </label>
+              ))}
             </div>
-          ))}
-        </fieldset>
+          </fieldset>
 
-        <div>
-          <label htmlFor="description">Description</label>
-          <input
-            id="description"
-            name="description"
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Brief description"
-          />
-        </div>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="description"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Description
+            </label>
+            <input
+              id="description"
+              name="description"
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Brief description"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
+          </div>
 
-        <div>
-          <label htmlFor="paymentMethod">Payment Method</label>
-          <select
-            id="paymentMethod"
-            name="paymentMethod"
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          >
-            <option value="">Select payment method</option>
-            <option value="cash">Cash</option>
-            <option value="credit_card">Credit Card</option>
-            <option value="debit_card">Debit Card</option>
-            <option value="bank_transfer">Bank Transfer</option>
-            <option value="digital_wallet">Digital Wallet</option>
-            <option value="check">Check</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="paymentMethod"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Payment Method
+            </label>
+            <select
+              id="paymentMethod"
+              name="paymentMethod"
+              value={paymentMethod}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            >
+              <option value="">Select payment method</option>
+              <option value="cash">Cash</option>
+              <option value="credit_card">Credit Card</option>
+              <option value="debit_card">Debit Card</option>
+              <option value="bank_transfer">Bank Transfer</option>
+              <option value="digital_wallet">Digital Wallet</option>
+              <option value="check">Check</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
 
-        <div>
-          <label htmlFor="notes">Notes</label>
-          <textarea
-            id="notes"
-            name="notes"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder="Additional notes or details"
-            rows={3}
-          />
-        </div>
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="notes"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Notes
+            </label>
+            <textarea
+              id="notes"
+              name="notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Additional notes or details"
+              rows={3}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-y focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
+          </div>
 
-        <div>
-          <label>
+          <label className="flex items-center gap-3 cursor-pointer">
             <input
               type="checkbox"
               name="isRecurring"
               checked={isRecurring}
               onChange={(e) => setIsRecurring(e.target.checked)}
+              className="w-4 h-4 text-blue-600 rounded cursor-pointer"
             />
-            Recurring Expense
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Recurring Expense
+            </span>
           </label>
-        </div>
 
-        {isRecurring && (
-          <div>
-            <label htmlFor="recurringPeriod">Recurring Period</label>
-            <select
-              id="recurringPeriod"
-              name="recurringPeriod"
-              value={recurringPeriod}
-              onChange={(e) => setRecurringPeriod(e.target.value)}
+          {isRecurring && (
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="recurringPeriod"
+                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Recurring Period
+              </label>
+              <select
+                id="recurringPeriod"
+                name="recurringPeriod"
+                value={recurringPeriod}
+                onChange={(e) => setRecurringPeriod(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+              >
+                <option value="">Select period</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Bi-weekly</option>
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+              </select>
+            </div>
+          )}
+
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="tags"
+              className="text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              <option value="">Select period</option>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="biweekly">Bi-weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="quarterly">Quarterly</option>
-              <option value="yearly">Yearly</option>
-            </select>
+              Tags
+            </label>
+            <input
+              id="tags"
+              name="tags"
+              type="text"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="Comma-separated tags"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+            />
           </div>
-        )}
 
-        <div>
-          <label htmlFor="tags">Tags</label>
-          <input
-            id="tags"
-            name="tags"
-            type="text"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-            placeholder="Comma-separated tags"
-          />
-        </div>
-
-        <button type="submit">Submit</button>
-      </form>
+          <button
+            type="submit"
+            className="w-full mt-4 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </>
   );
 }

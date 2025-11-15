@@ -1,5 +1,7 @@
 "use client";
+import BackButton from "@/app/components/buttons/BackButton";
 import ChatList, { ChatListRef } from "@/app/components/chat/ChatList";
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 export default function Chat() {
@@ -49,29 +51,32 @@ export default function Chat() {
   }
 
   return (
-    <div className="m-4">
-      <div className="border border-gray-200 rounded-lg p-4">
-        <ChatList loading={loading} ref={chatListRef} />
-        <div className="mt-4 border-t border-gray-200 pt-4"></div>
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <textarea
-            className="w-full p-2 border border-gray-200 rounded-lg"
-            name="message"
-            placeholder="Type your message..."
-            value={message}
-            onChange={handleInputChange}
-            disabled={loading}
-            required
-          />
-          <button
-            className="w-3xs bg-blue-600 text-white px-4 py-2 rounded-lg"
-            type="submit"
-            disabled={loading || !message.trim()}
-          >
-            {loading ? "Sending..." : "Send"}
-          </button>
-        </form>
+    <>
+      <BackButton />
+      <div className="m-4">
+        <div className="border border-gray-200 rounded-lg p-4">
+          <ChatList loading={loading} ref={chatListRef} />
+          <div className="mt-4 border-t border-gray-200 pt-4"></div>
+          <form onSubmit={handleSubmit} className="flex gap-2">
+            <textarea
+              className="w-full p-2 border border-gray-200 rounded-lg"
+              name="message"
+              placeholder="Type your message..."
+              value={message}
+              onChange={handleInputChange}
+              disabled={loading}
+              required
+            />
+            <button
+              className="w-3xs bg-blue-600 text-white px-4 py-2 rounded-lg"
+              type="submit"
+              disabled={loading || !message.trim()}
+            >
+              {loading ? "Sending..." : "Send"}
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

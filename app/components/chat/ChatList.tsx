@@ -50,8 +50,8 @@ const ChatList = forwardRef<ChatListRef, Props>(({ loading }, ref) => {
       {messages.map((message) => (
         <li
           className={cn("text-sm p-3 rounded-lg", {
-            "self-end bg-blue-600": message.role === "user",
-            "bg-gray-100 self-start text-black": message.role === "assistant",
+            "self-end bg-blue-600 text-white": message.role === "user",
+            "bg-gray-100 self-start text-black dark:bg-gray-800 dark:text-white": message.role === "assistant",
           })}
           key={message.id}
         >
