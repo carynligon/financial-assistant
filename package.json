@@ -12,6 +12,7 @@
     "@anthropic-ai/sdk": "^0.68.0",
     "@prisma/client": "^6.19.0",
     "classnames": "^2.5.1",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.553.0",
     "next": "16.0.1",
     "prisma": "^6.19.0",
