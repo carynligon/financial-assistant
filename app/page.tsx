@@ -3,36 +3,58 @@
 import Link from "next/link";
 import MenuButton from "./components/buttons/MenuButton";
 import SideDrawer from "./components/drawer/SideDrawer";
-import { useState } from "react";
+import { Sun, Moon } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
+import styles from "./Home.module.css";
+import ThemeProvider, { ThemeContext } from "./providers/ThemeProvider";
+import ModePreferenceButton from "./components/buttons/ModePreferenceButton";
 
 export default function Home() {
+  const { mode } = useContext(ThemeContext);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const openSideDrawer = () => setDrawerOpen(true);
+  useEffect(() => {
+    console.log("mode changed", mode);
+  }, [mode]);
 
-  const closeSideDrawer = () => setDrawerOpen(false);
+  const openSideDrawer = () => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        setDrawerOpen(true);
+      });
+    } else {
+      setDrawerOpen(true);
+    }
+  };
+
+  const closeSideDrawer = () => {
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        setDrawerOpen(false);
+      });
+    } else {
+      setDrawerOpen(false);
+    }
+  };
   return (
-    <div>
-      <MenuButton menuOnClick={openSideDrawer} />
+    <ThemeProvider>
+      <div className="flex justify-between">
+        <MenuButton menuOnClick={openSideDrawer} />
+        <ModePreferenceButton />
+      </div>
       <SideDrawer closeDrawer={closeSideDrawer} drawerOpen={drawerOpen} />
-      <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center py-32 px-16 bg-white dark:bg-black">
-          <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-            <Link
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-              href="/expenses/create"
-            >
+      <div className={styles.mainWrapper}>
+        <main className={styles.main}>
+          <div className={styles.buttonContainer}>
+            <Link className={styles.button} href="/expenses/create">
               Add expense
             </Link>
-            <Link
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-              href="/chat"
-            >
+            <Link className={styles.button} href="/chat">
               Chat
             </Link>
           </div>
         </main>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }

@@ -1,0 +1,29 @@
+.backButton {
+  display: flex;
+  height: 3rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0 1.25rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+@media (min-width: 768px) {
+  .backButton {
+    width: 158px;
+  }
+}
+
+.backButton:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover);
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}

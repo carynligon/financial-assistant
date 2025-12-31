@@ -1,8 +1,8 @@
 "use client";
 import BackButton from "@/app/components/buttons/BackButton";
 import ChatList, { ChatListRef } from "@/app/components/chat/ChatList";
-import Link from "next/link";
 import { useRef, useState } from "react";
+import styles from "./Chat.module.css";
 
 export default function Chat() {
   const chatListRef = useRef<ChatListRef>(null);
@@ -53,13 +53,13 @@ export default function Chat() {
   return (
     <>
       <BackButton />
-      <div className="m-4">
-        <div className="border border-gray-200 rounded-lg p-4">
+      <div className={styles.container}>
+        <div className={styles.chatWrapper}>
           <ChatList loading={loading} ref={chatListRef} />
-          <div className="mt-4 border-t border-gray-200 pt-4"></div>
-          <form onSubmit={handleSubmit} className="flex gap-2">
+          <div className={styles.divider}></div>
+          <form onSubmit={handleSubmit} className={styles.form}>
             <textarea
-              className="w-full p-2 border border-gray-200 rounded-lg"
+              className={styles.textarea}
               name="message"
               placeholder="Type your message..."
               value={message}
@@ -68,7 +68,7 @@ export default function Chat() {
               required
             />
             <button
-              className="w-3xs bg-blue-600 text-white px-4 py-2 rounded-lg"
+              className={styles.submitButton}
               type="submit"
               disabled={loading || !message.trim()}
             >

@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -14,13 +9,176 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Base colors */
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* Background variations */
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #1f2937;
+    --bg-tertiary: #374151;
+    --bg-hover: #1f2937;
+    --bg-active: #374151;
+
+    /* Text colors */
+    --text-primary: #ededed;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+
+    /* Border colors */
+    --border-primary: #374151;
+    --border-secondary: #4b5563;
+    --border-focus: #3b82f6;
+
+    /* Accent/Primary colors */
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-primary-text: #ffffff;
+
+    /* Sidebar/drawer colors */
+    --drawer-bg: #1f2937;
+    --drawer-text: #ededed;
+    --drawer-border: #374151;
+
+    /* Interactive elements */
+    --interactive-bg: #1f2937;
+    --interactive-bg-hover: #374151;
+    --interactive-bg-active: #3b82f6;
+    --interactive-text-active: #ffffff;
+
+    /* Input colors */
+    --input-bg: #1f2937;
+    --input-border: #4b5563;
+    --input-border-focus: #3b82f6;
+    --input-text: #ededed;
   }
+}
+
+body:has(.dark-mode) {
+  /* Base colors */
+  --background: #0a0a0a;
+  --foreground: #ededed;
+
+  /* Background variations */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1f2937;
+  --bg-tertiary: #374151;
+  --bg-hover: #1f2937;
+  --bg-active: #374151;
+
+  /* Text colors */
+  --text-primary: #ededed;
+  --text-secondary: #d1d5db;
+  --text-muted: #9ca3af;
+
+  /* Border colors */
+  --border-primary: #374151;
+  --border-secondary: #4b5563;
+  --border-focus: #3b82f6;
+
+  /* Accent/Primary colors */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-text: #ffffff;
+
+  /* Sidebar/drawer colors */
+  --drawer-bg: #1f2937;
+  --drawer-text: #ededed;
+  --drawer-border: #374151;
+
+  /* Interactive elements */
+  --interactive-bg: #1f2937;
+  --interactive-bg-hover: #374151;
+  --interactive-bg-active: #3b82f6;
+  --interactive-text-active: #ffffff;
+
+  /* Input colors */
+  --input-bg: #1f2937;
+  --input-border: #4b5563;
+  --input-border-focus: #3b82f6;
+  --input-text: #ededed;
+}
+
+body:has(.light-mode) {
+  /* Base colors */
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Background variations */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  --bg-hover: #f9fafb;
+  --bg-active: #e5e7eb;
+
+  /* Text colors */
+  --text-primary: #171717;
+  --text-secondary: #374151;
+  --text-muted: #6b7280;
+
+  /* Border colors */
+  --border-primary: #e5e7eb;
+  --border-secondary: #d1d5db;
+  --border-focus: #3b82f6;
+
+  /* Accent/Primary colors */
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-text: #ffffff;
+
+  /* Sidebar/drawer colors */
+  --drawer-bg: #ffffff;
+  --drawer-text: #171717;
+  --drawer-border: #e5e7eb;
+
+  /* Interactive elements */
+  --interactive-bg: #f3f4f6;
+  --interactive-bg-hover: #e5e7eb;
+  --interactive-bg-active: #2563eb;
+  --interactive-text-active: #ffffff;
+
+  /* Input colors */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-border-focus: #3b82f6;
+  --input-text: #171717;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* View Transitions for side drawer */
+::view-transition-old(side-drawer),
+::view-transition-new(side-drawer) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-old(side-drawer) {
+  animation-name: slide-out;
+}
+
+::view-transition-new(side-drawer) {
+  animation-name: slide-in;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }

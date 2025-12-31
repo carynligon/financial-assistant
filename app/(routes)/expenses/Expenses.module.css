@@ -1,0 +1,62 @@
+.container {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 1.5rem;
+  }
+}
+
+.expenseList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.expenseItem {
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 0.5rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.expenseItem:hover {
+  background: var(--bg-hover);
+}
+
+.expenseContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .expenseContent {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.description {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.date {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.amount {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 1.125rem;
+}

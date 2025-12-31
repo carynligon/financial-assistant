@@ -1,3 +1,21 @@
 .chatScrollContainer {
   max-height: calc(100vh - 200px);
 }
+
+.message {
+  font-size: 0.875rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.userMessage {
+  align-self: flex-end;
+  background: var(--interactive-bg-active);
+  color: var(--interactive-text-active);
+}
+
+.assistantMessage {
+  align-self: flex-start;
+  background: var(--interactive-bg);
+  color: var(--text-primary);
+}

@@ -1,0 +1,26 @@
+.menuButton {
+  padding: 0.75rem;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .menuButton {
+    width: 158px;
+  }
+}
+
+.menuBar {
+  height: 0.25rem;
+  width: 2.5rem;
+  background: var(--text-primary);
+  margin: 0.25rem 0;
+  border-radius: 0.125rem;
+  transition: background-color 0.2s;
+}
